@@ -35,3 +35,4 @@ fs.readFile('data.json', 'utf8', (err, data) => {
     console.error('Помилка розбору JSON: ', error);
   }
 });
+
