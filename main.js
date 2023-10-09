@@ -11,20 +11,24 @@ fs.readFile('data.json', 'utf8', (err, data) => {
     // Розбираємо JSON-дані
     const jsonData = JSON.parse(data);
 
-    // Фільтруємо дані за вказаними умовами
-    const filteredData = jsonData.filter(item => item.ku === "13" && parseFloat(item.value) > 5);
+    // Підготовка для збереження індексів
+    const indexes = [];
+
+    // Цикл для перевірки кожного об'єкта
+    for (const item of jsonData) {
+      if (item.ku === "13" && parseFloat(item.value) > 5) {
+        indexes.push(parseFloat(item.value).toFixed(1));
+      }
+    }
 
     // Перевіряємо, чи є дані, щоб не записувати порожній файл
-    if (filteredData.length === 0) {
+    if (indexes.length === 0) {
       console.log('Немає відповідних даних для запису.');
       return;
     }
 
-    // Вибираємо значення індексу (ключ "value") і перетворюємо їх у рядок
-    const resultString = filteredData.map(item => parseFloat(item.value).toFixed(1)).join('\n');
-
-    // Записуємо рядок у файл output.txt
-    fs.writeFile('output.txt', resultString, (err) => {
+    // Записуємо індекси у файл output.txt
+    fs.writeFile('output.txt', indexes.join('\n'), (err) => {
       if (err) {
         console.error('Помилка запису в файл output.txt: ', err);
       } else {
@@ -35,4 +39,3 @@ fs.readFile('data.json', 'utf8', (err, data) => {
     console.error('Помилка розбору JSON: ', error);
   }
 });
-
