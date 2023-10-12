@@ -17,7 +17,7 @@ fs.readFile('data.json', 'utf8', (err, data) => {
     // Цикл для перевірки кожного об'єкта
     for (const item of jsonData) {
       if (item.ku === "13" && parseFloat(item.value) > 5) {
-        indexes.push(parseFloat(item.value).toFixed(1));
+        indexes.push(item.value);
       }
     }
 
